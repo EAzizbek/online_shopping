@@ -1,0 +1,10 @@
+from aiogram.types import ReplyKeyboardMarkup,KeyboardButton
+
+def register():
+    return ReplyKeyboardMarkup(
+        keyboard=[
+            [KeyboardButton(text="Register")]
+        ],
+        resize_keyboard=True
+    )
+
