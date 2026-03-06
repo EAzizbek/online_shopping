@@ -8,3 +8,20 @@ def register():
         resize_keyboard=True
     )
 
+def start_reply():
+    return ReplyKeyboardMarkup(
+        keyboard=[
+            [KeyboardButton(text="Mahsulotlar"),KeyboardButton(text="Mening buyurtmalarim")],
+            [KeyboardButton(text="Profile")]
+        ],
+        resize_keyboard=True
+    )
+
+def start_reply_admin():
+    return ReplyKeyboardMarkup(
+        keyboard=[
+            [KeyboardButton(text="Mahsulotlar"),KeyboardButton(text="Mening buyurtmalarim")],
+            [KeyboardButton(text="Profile"),KeyboardButton(text="Admin panel")]
+        ],
+        resize_keyboard=True
+    )

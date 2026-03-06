@@ -20,3 +20,22 @@ class Database:
         insert into users(telegram_id,name,surename,age,phone_number) values($1,$2,$3,$4,$5);
         """
         await self.pool.execute(query,telegram_id,name,surename,age,phone_number)
+
+    
+    async def is_user_exists(self, telegram_id: int) -> bool:
+        query = """
+        SELECT EXISTS (
+        SELECT 1 FROM users WHERE telegram_id = $1
+        );
+        """
+        return await self.pool.fetchval(query, telegram_id)
+    
+    async def profile(self,tg_id):
+        query="""
+        select name,surename,age,phone_number,role from users where telegram_id=$1;
+        """
+        return await self.pool.fetchrow(query,tg_id)
+    
+    async def get_user_role(self, telegram_id):
+        query = """SELECT role FROM users WHERE telegram_id=$1"""
+        return await self.pool.fetchval(query, telegram_id)

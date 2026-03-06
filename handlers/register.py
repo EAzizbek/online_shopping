@@ -1,15 +1,19 @@
 from aiogram import Router,F
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
+from keyboards.reply import start_reply
 
 from states.register import RegisterState
 
 router=Router()
 
 @router.message(F.text=="Register")
-async def register(msg:Message,state:FSMContext):
-    await msg.answer("Registratsiyadan o'tish uchun ismingizni yozing: ")
-    await state.set_state(RegisterState.name)
+async def register(msg:Message,state:FSMContext,db):
+    if await db.is_user_exists(msg.from_user.id):
+        await msg.answer("Siz avval ro'yxatdan o'tgansiz iltimos asosiy menyudan foydalaning",reply_markup=start_reply())
+    else:
+        await msg.answer("Registratsiyadan o'tish uchun ismingizni yozing: ")
+        await state.set_state(RegisterState.name)
 
 @router.message(RegisterState.name)
 async def register(msg:Message,state:FSMContext):
@@ -36,5 +40,5 @@ async def register(msg:Message,state:FSMContext,db):
     data=await state.get_data()
     await msg.answer(text=f" Malumotlaringiz: \nIsmingiz: {data["name"]}\nFamilyangiz: {data["surename"]}\nYoshingiz: {data["age"]}\nTelefon raqamingiz: {data["phone_number"]}")
     await db.add_user(int(msg.from_user.id),data["name"],data["surename"],data["age"],data["phone_number"])
-    await msg.answer("Malumotlarigiz muvaffaqiyatli saqlandi")
+    await msg.answer("Malumotlarigiz muvaffaqiyatli saqlandi",reply_markup=start_reply())
     await state.clear()

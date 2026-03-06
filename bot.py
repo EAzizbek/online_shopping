@@ -6,7 +6,7 @@ from database.db import Database
 
 from handlers.start import router as start_router
 from handlers.register import router as register_router
-
+from handlers.users.profile import router as profile_router
 
 async def main():
     bot=Bot(token=config.BOT_TOKEN)
@@ -18,6 +18,7 @@ async def main():
 
     dp.include_router(start_router)
     dp.include_router(register_router)
+    dp.include_router(profile_router)
 
 
 
