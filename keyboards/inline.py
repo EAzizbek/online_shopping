@@ -22,3 +22,10 @@ def product_inline(products):
         keyboard.append([InlineKeyboardButton(text=f"{product["name"] } ({product["price"]} so'm)",callback_data=f"product_{product["id"]}")])
     
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
+
+def product_action(product_id):
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="Edit",callback_data=f"edit_product_{product_id}"),InlineKeyboardButton(text="Delete",callback_data=f"delete_product_{product_id}")]
+        ]
+    )
